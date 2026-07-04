@@ -109,7 +109,7 @@
 - Each note card's edit/delete controls must be keyboard-reachable via Tab key and activatable via Enter/Space.
 - The "Save" button must carry the native `disabled` attribute when body is empty.
 - Cancelling edit must restore the exact original values (do not persist trimmed or modified intermediate state).
-- Only one note card may be in edit mode at a time. If the user opens edit on one card, other cards remain in read view (or, alternatively, opening edit on a new card auto-cancels the previous edit — either is acceptable; specify behaviour in implementation).
+- Only one note card may be in edit mode at a time. If the user activates "Edit" on a second card while another card is already in edit mode, the first card's edit mode is automatically cancelled (unsaved changes discarded) and the second card enters edit mode. No confirmation is shown for the auto-cancel — this mirrors the "Cancel" button behaviour.
 
 ---
 

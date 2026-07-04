@@ -295,6 +295,7 @@ _Below the compose box, a live list of all persisted notes displayed newest firs
 **Acceptance Criteria:**
 - [ ] Creating a note via the compose box triggers a list refresh (re-fetch `GET /api/notes`) without a full page reload
 - [ ] The newly created note appears at the top of the list after submission
+- [ ] The complete round-trip from note submission to note card visible in the list completes in under 500 ms on a local network (PRD §7 capture speed metric)
 - [ ] Editing a note updates that card in place without a full page reload
 - [ ] Deleting a note removes that card from the list without a full page reload
 - [ ] If `GET /api/notes` fails on refresh, the previous list state is retained and an error message is shown: "Failed to load notes. Refresh to try again."
@@ -318,7 +319,7 @@ _Each note card exposes Edit and Delete controls. Alex can correct or remove not
 - [ ] "Save" button is disabled when `body.trim() === ""` in edit mode (native HTML `disabled` attribute)
 - [ ] Clicking "Save" calls `PUT /api/notes/:id` with `{ title: trimmedTitle || null, body: trimmedBody }`
 - [ ] On success (HTTP 200), the card exits edit mode and displays the updated title, body, and timestamp from the API response
-- [ ] Only one note card can be in edit mode at a time
+- [ ] Only one note card can be in edit mode at a time; if the user clicks "Edit" on a second card while one is already in edit mode, the first card's edit mode is automatically cancelled (unsaved changes discarded) and the second card enters edit mode
 
 **Priority:** P1 | **Feature Ref:** F5
 
@@ -360,7 +361,8 @@ _Each note card exposes Edit and Delete controls. Alex can correct or remove not
 - [ ] If the user confirms, `DELETE /api/notes/:id` is called
 - [ ] On success (HTTP 204), the note card is removed from the list
 - [ ] If the deleted note was the last one, the empty state message appears
-- [ ] If `DELETE` returns an error (non-204 or network failure), the card is restored (if optimistically hidden) and an error message is shown: "Failed to delete note. Please try again."
+- [ ] If `DELETE` returns HTTP 500 or a network error (fetch throws), the card is restored (if optimistically hidden) and an error message is shown: "Failed to delete note. Please try again."
+- [ ] If `DELETE` returns HTTP 404, the note is already gone from the database — the card is silently removed from the list with no error message shown to the user
 
 **Priority:** P1 | **Feature Ref:** F5
 

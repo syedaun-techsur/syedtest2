@@ -125,6 +125,7 @@
 - Request body must be valid JSON; malformed JSON returns 400 `{ "error": "Invalid JSON body" }`.
 - Methods not implemented on a given route return 405 (Next.js automatic behaviour).
 - Server-side `body` validation is the source of truth — client-side disabled-button state (F3) is UX only, not a security control.
+- No maximum length is enforced on `title` or `body` at the API or database layer in v1 — PostgreSQL `TEXT` is unbounded. Extremely large inputs are accepted without truncation or rejection.
 
 ---
 

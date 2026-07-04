@@ -88,7 +88,7 @@
 | Scenario | User-Visible Behaviour | Technical Detail |
 |----------|----------------------|-----------------|
 | Body is empty | "Add Note" button disabled; cannot submit | `body.trim() === ""` check |
-| `POST /api/notes` returns 400 | Inline error: "Failed to save note." | Form not cleared |
+| `POST /api/notes` returns 400 | Inline error: "Failed to save note. Please try again." | Form not cleared |
 | `POST /api/notes` returns 500 | Inline error: "Failed to save note. Please try again." | Form not cleared |
 | Network error (fetch throws) | Inline error: "Failed to save note. Please try again." | Form not cleared |
 | `POST /api/notes` succeeds but list refresh fails | Note created; list may be stale; silent retry or page reload | Non-blocking; note is persisted |

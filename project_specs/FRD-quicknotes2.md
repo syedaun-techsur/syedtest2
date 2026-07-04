@@ -383,6 +383,7 @@ Defines and owns the `notes` table. Full DDL: see `Y0-schema.md` §Notes.
 - Request body must be valid JSON; malformed JSON returns 400 `{ "error": "Invalid JSON body" }`.
 - Methods not implemented on a given route return 405 (Next.js automatic behaviour).
 - Server-side `body` validation is the source of truth — client-side disabled-button state (F3) is UX only, not a security control.
+- No maximum length is enforced on `title` or `body` at the API or database layer in v1 — PostgreSQL `TEXT` is unbounded. Extremely large inputs are accepted without truncation or rejection.
 
 ---
 
@@ -507,7 +508,7 @@ Reads and writes the `notes` table. Uses all five columns: `id`, `title`, `body`
 | Scenario | User-Visible Behaviour | Technical Detail |
 |----------|----------------------|-----------------|
 | Body is empty | "Add Note" button disabled; cannot submit | `body.trim() === ""` check |
-| `POST /api/notes` returns 400 | Inline error: "Failed to save note." | Form not cleared |
+| `POST /api/notes` returns 400 | Inline error: "Failed to save note. Please try again." | Form not cleared |
 | `POST /api/notes` returns 500 | Inline error: "Failed to save note. Please try again." | Form not cleared |
 | Network error (fetch throws) | Inline error: "Failed to save note. Please try again." | Form not cleared |
 | `POST /api/notes` succeeds but list refresh fails | Note created; list may be stale; silent retry or page reload | Non-blocking; note is persisted |
@@ -565,7 +566,7 @@ No direct database access. Reads/writes through F2 API only.
 
 1. Page component mounts (client-side after SSR hydration or as a client component).
 2. `GET /api/notes` is called.
-3. While fetching, a loading indicator may be shown (e.g. "Loading notes…") or the list area is left empty.
+3. While fetching, a loading indicator may be shown (e.g. "Loading notes…") or the list area is left blank — both are acceptable. **Required:** the compose box (F3) must remain fully visible and usable during the fetch; it must not be hidden, disabled, or blocked by a loading overlay.
 4. On success (HTTP 200):
    a. If the response array is empty → render empty state: `<p>No notes yet — add your first one above.</p>`.
    b. If the array has items → render one note card per item in the order returned (newest first).
@@ -744,7 +745,7 @@ No direct database access. Reads through F2 API only.
 - Each note card's edit/delete controls must be keyboard-reachable via Tab key and activatable via Enter/Space.
 - The "Save" button must carry the native `disabled` attribute when body is empty.
 - Cancelling edit must restore the exact original values (do not persist trimmed or modified intermediate state).
-- Only one note card may be in edit mode at a time. If the user opens edit on one card, other cards remain in read view (or, alternatively, opening edit on a new card auto-cancels the previous edit — either is acceptable; specify behaviour in implementation).
+- Only one note card may be in edit mode at a time. If the user activates "Edit" on a second card while another card is already in edit mode, the first card's edit mode is automatically cancelled (unsaved changes discarded) and the second card enters edit mode. No confirmation is shown for the auto-cancel — this mirrors the "Cancel" button behaviour.
 
 ---
 

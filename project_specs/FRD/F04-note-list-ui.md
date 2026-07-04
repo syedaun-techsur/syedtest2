@@ -34,7 +34,7 @@
 
 1. Page component mounts (client-side after SSR hydration or as a client component).
 2. `GET /api/notes` is called.
-3. While fetching, a loading indicator may be shown (e.g. "Loading notes…") or the list area is left empty.
+3. While fetching, a loading indicator may be shown (e.g. "Loading notes…") or the list area is left blank — both are acceptable. **Required:** the compose box (F3) must remain fully visible and usable during the fetch; it must not be hidden, disabled, or blocked by a loading overlay.
 4. On success (HTTP 200):
    a. If the response array is empty → render empty state: `<p>No notes yet — add your first one above.</p>`.
    b. If the array has items → render one note card per item in the order returned (newest first).
