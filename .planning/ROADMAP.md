@@ -28,7 +28,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Running `npm run dev` starts the server on port 3000 bound to `0.0.0.0` with no errors
   2. `GET /health` returns HTTP 200 with JSON body `{ "status": "ok" }` within 100ms
   3. The project uses Next.js App Router with TypeScript (`tsconfig.json` strict mode, `next.config.js` with `.js` extension)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold Next.js App Router + TypeScript + GET /health route
 
 ### Phase 2: Database Schema & Connectivity
 **Goal**: The app connects to PostgreSQL and ensures the schema is ready before serving requests
