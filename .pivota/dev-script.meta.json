@@ -1,0 +1,17 @@
+{
+  "generator_version": "init-dev-server@1",
+  "catalog_entry": "react-next",
+  "generated_at": "2026-07-04T19:50:31Z",
+  "inspection_inputs_hash": "204198c621d478899d6f7c2ce83691b7afdeea01e1f87681e4b1be9f4555debd",
+  "inspection_inputs": {
+    "matched_globs": [
+      "next.config.js",
+      "package.json"
+    ],
+    "manifest_signatures": [
+      "package.json:dep:next@^14.2.35",
+      "package.json:dev-script:next dev -p 3000 -H 0.0.0.0"
+    ],
+    "existing_scripts": []
+  }
+}
