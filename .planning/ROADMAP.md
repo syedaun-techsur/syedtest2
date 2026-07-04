@@ -21,6 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Scaffold & Health
+**Status**: In Progress
 **Goal**: The Next.js application starts and is verifiably alive
 **Depends on**: Nothing (first phase)
 **Requirements**: F0-01, F0-02, F0-03
